@@ -6,8 +6,8 @@ import registrationPage from "../support/pages/RegistrationPage";
 import user from "../fixtures/user.json";
 import {faker} from '@faker-js/faker' 
 
-user.email = faker.internet.email();
-user.password = faker.internet.password({ length: 10 })
+// user.email = faker.internet.email();
+// user.password = faker.internet.password({ length: 10 })
 
 it("Registration", () => {
   homePage.visit();

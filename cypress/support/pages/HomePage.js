@@ -4,8 +4,12 @@ class HomePage {
         cy.visit('/');
     }
 
-    getModalWindow(){
+    hideModalWindow(){
         return cy.get('[aria-label="Close Welcome Banner"]');
+    }
+
+    hideCookieModal(){
+        return cy.get(".cc-compliance");
     }
 
     getAccountButton(){
@@ -14,6 +18,14 @@ class HomePage {
 
     getLoginButton(){
         return cy.get('#navbarLoginButton');
+    }
+
+    getMenuButton(){
+        return cy.get('[aria-label="Open Sidenav"]');
+    }
+
+    getFeedbackItem(){
+        return cy.get('[aria-label="Go to contact us page"]')
     }
 
 }

@@ -18,17 +18,6 @@ export function login(user) {
   //cy.get(`[alt="${productName}"]`).click();
 }
 
-// export function findProduct(productName) {
-//     cy.get("body").then((body) => {
-
-//         if (body.find(`[alt="${productName}"]`).length > 0) {
-//         cy.get(`[alt="${productName}"]`).click();
-//       } else {
-//         cy.get(`.mat-paginator-container button[aria-label="Next page"]`).click();
-//         findProduct(productName);
-//       }
-//     });
-// }
 
 export function findProduct(productName) {
   cy.get("body").then((body) => {
@@ -48,35 +37,31 @@ export function findProduct(productName) {
     }
   });
 }
-//[aria-label="Add to Basket"]
 
-// export function findProduct(user) {
-
-//     function findItem() {
-//         cy.get('.mat-card .item-name').then(($items) => {
-
-//             for(let i = 0; i < $items.length; i++){
-//                 let item = $items[i];
-//                 if (item.textContent === user.product) {
-
-//                     cy.contains('.item-name', user.product)
-//                     .parents('.mat-card')
-//                     .within(() => {
-//                         cy.get('.btn-basket').click({force: true});
-//                     });
-//                     return;
-//                 } else {
-//                     cy.get('button[aria-label="Next page"]').click({force: true}).then(findItem);
-//                 }
-//             }
-
-//             //cy.get('button[aria-label="Next page"]').click({force: true}).then(findItem);
-//         });
-//     }
-//     findItem();
-//     //cy.get('.mat-simple-snack-bar-content').should('contain', `Placed${user.product}into basket`);
-// }
-
-export function rating() {
-  cy.get("#rating").invoke("aria-valuenow", 5).trigger("change");
+export function moveRatingSlider() {
+  cy.get("mat-slider#rating").as("slider");
+  cy.get("@slider")
+    .invoke("attr", "aria-valuenow")
+    .then((value) => {
+      const currentPosition = parseInt(value);
+      const targetPosition = 2;
+      const movement = targetPosition - currentPosition;
+      cy.get("@slider").trigger("keydown", { keyCode: 39, which: 39 }); // Натиснути клавішу вправо
+      for (let i = 0; i < movement; i++) {
+        cy.get("@slider").trigger("keydown", { keyCode: 39, which: 39 }); // Натиснути клавішу вправо
+      }
+  });
 }
+
+export function captchCalculating() {
+  cy.get("code#captcha")
+    .invoke("text")
+    .then((captchaText) => {
+      const captchaResult = eval(captchaText);
+      cy.get("#captchaControl").type(captchaResult);
+      cy.get('button[type="submit"]').click();
+      cy.get(".mat-simple-snack-bar-content")
+        .contains("Thank you for your feedback.")
+        .should("be.visible");
+    });
+};
