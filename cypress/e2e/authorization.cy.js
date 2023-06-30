@@ -6,12 +6,14 @@ import user from "../fixtures/user.json";
 
 it("Authorization", () => {
   loginPage.visit();
-  homePage.getModalWindow().click();
+  homePage.hideModalWindow().click();
+  homePage.hideCookieModal().click();
   homePage.getAccountButton().click();
   homePage.getLoginButton().click();
 
   loginPage.getEmailFileld().type(user.email);
   loginPage.getPasswordFileld().type(user.password);
   loginPage.submitLoginForm().click();
-  //cy.get('[alt="Apple Pomace"]').click();
+  homePage.getAccountButton().click();
+  homePage.checkAuthorization().contains(user.email);
 });

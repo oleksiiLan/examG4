@@ -6,12 +6,13 @@ import registrationPage from "../support/pages/RegistrationPage";
 import user from "../fixtures/user.json";
 import {faker} from '@faker-js/faker' 
 
-// user.email = faker.internet.email();
-// user.password = faker.internet.password({ length: 10 })
+ user.email = faker.internet.email();
+ user.password = faker.internet.password({ length: 10 })
 
 it("Registration", () => {
   homePage.visit();
-  homePage.getModalWindow().click();
+  homePage.hideModalWindow().click();
+  homePage.hideCookieModal().click();
   homePage.getAccountButton().click();
   homePage.getLoginButton().click();
   loginPage.getAnewCustomer().click();
@@ -23,4 +24,5 @@ it("Registration", () => {
   registrationPage.selectSecurityQuestion().click();
   registrationPage.getSecurityAnswerField().type(user.answer);
   registrationPage.submitRegisterButton().click();
+  registrationPage.checkRegistration().contains('Registration completed successfully. You can now log in.').should("exist");
 });

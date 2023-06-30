@@ -1,19 +1,19 @@
-import user from "../fixtures/user.json";
-import { login, findProduct } from "../support/helper";
+///<reference types="cypress"/>
+
+import { findProduct } from "../support/helper";
 import homePage from "../support/pages/HomePage";
+import loginPage from "../support/pages/LoginPage";
 
 it("Order product", () => {
-  login(user);
+  homePage.visit();
+  homePage.hideModalWindow().click();
+  homePage.hideCookieModal().click();
+  homePage.getAccountButton().click();
+  homePage.getLoginButton().click();
 
-  //cy.get('#searchQuery').type('OW{enter}')
-  //.type('{enter}');
+  loginPage.getEmailFileld().type("!123Oleksii@mail.com");
+  loginPage.getPasswordFileld().type("!123Oleksii");
+  loginPage.submitLoginForm().click();
 
-  //findProduct('Apple Pomace') // 1st page
-  //findProduct('OWASP Juice Shop Hoodie') // 2nd page
-  findProduct("Strawberry Juice (500ml)"); // last page
-  cy.get("h1").contains(user.email).should("exist");
-  // cy.get('.productpagecart').click();
-  // cy.get('#cart_checkout1').click();
-  // cy.get('#checkout_btn').click();
-  // cy.get('.contentpanel').should('contain', "Thank you for shopping with us!");
+  findProduct("Strawberry Juice (500ml)"); 
 });
