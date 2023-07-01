@@ -1,5 +1,3 @@
-
-
 it("GET pet by id", () => {
     cy.log(` Get all posts. Verify HTTP response status code and content type.`);
   
