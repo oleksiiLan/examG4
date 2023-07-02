@@ -1,15 +1,16 @@
 ///<reference types="cypress"/>
 
+import { findProduct } from "../support/helper";
 import homePage from "../support/pages/HomePage";
 import loginPage from "../support/pages/LoginPage";
 import registrationPage from "../support/pages/RegistrationPage";
 import user from "../fixtures/user.json";
-import {faker} from '@faker-js/faker' 
+import {faker} from '@faker-js/faker';
 
- user.email = faker.internet.email();
- user.password = faker.internet.password({ length: 10 })
+user.email = faker.internet.email();
+user.password = faker.internet.password({ length: 10 })
 
-it("Registration", () => {
+it("Order product", () => {
   homePage.visit();
   homePage.hideModalWindow().click();
   homePage.hideCookieModal().click();
@@ -25,4 +26,10 @@ it("Registration", () => {
   registrationPage.getSecurityAnswerField().type(user.answer);
   registrationPage.submitRegisterButton().click();
   registrationPage.checkRegistration().contains('Registration completed successfully. You can now log in.').should("exist");
+
+  loginPage.getEmailFileld().type(user.email);
+  loginPage.getPasswordFileld().type(user.password);
+  loginPage.submitLoginForm().click();
+
+  findProduct("Strawberry Juice (500ml)"); 
 });
